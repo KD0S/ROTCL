@@ -4,6 +4,7 @@ class monster {
         this.owner = owner;
         this.name = name;
         this.hp = hp;
+        this.currHp = hp;
         this.ability = ability;
     }
 }
