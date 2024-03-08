@@ -2,6 +2,7 @@ const monsters_p1 = [
     {
         name : 'm1',
         hp : 100,
+        id : '0',
         owner : 'p1',
         ability : [{
             name  : 'Swipe',
@@ -17,6 +18,7 @@ const monsters_p1 = [
     {
         name : 'm2',
         hp : 80,
+        id : '1',
         owner : 'p1',
         ability : [{
             name  : 'Bite',
@@ -27,6 +29,7 @@ const monsters_p1 = [
     {
         name : 'm3',
         hp : 150, 
+        id : '2',
         owner : 'p1',
         ability : [{
             name  : 'Heal',
