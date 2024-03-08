@@ -5,14 +5,28 @@ import monsters_p2 from './constants/monsters_p2';
 import monster from './monster';
 import { useState } from 'react';
 import { AttackScreen } from './components/AttackScreen';
+import io from "socket.io-client";
+
+const socket = io.connect("http://localhost:3502")
+
 
 function App() {
-  
+
   const [turn, setTurn] = useState(0)
 
-  let p1_monsters = monsters_p1.map((m) => {return new monster(m.hp, m.name, m.ability, m.id, m.owner)})
-  let p2_monsters = monsters_p2.map((m) => {return new monster(m.hp, m.name, m.ability, m.id, m.owner)})
+  const [p1_monsters, setMonstersP1] = useState(monsters_p1.map((m) => {return new monster(m.hp, m.name, m.ability, m.id, m.owner)}))
+  const [p2_monsters, setMonstersP2] = useState(monsters_p2.map((m) => {return new monster(m.hp, m.name, m.ability, m.id, m.owner)}))
+
   let all_monsters = p1_monsters.concat(p2_monsters)
+
+  socket.on("setState", (monsters) =>{
+    setMonstersP1(monsters[0]);
+  })
+
+
+  //console.log("Val of x : " + x)
+
+
 
   return (
     <div className="bg-black h-screen w-screen flex-col">
