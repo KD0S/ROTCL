@@ -1,9 +1,8 @@
 import './index.css';
 import { PetSlot } from './components/PetSlot';
-import { useEffect, useState } from 'react';
 import { AttackScreen } from './components/AttackScreen';
 import io from "socket.io-client";
-
+import { useState } from 'react';
 const socket = io.connect("http://localhost:3502")
 
 function App() {
@@ -20,9 +19,15 @@ function App() {
     setAllMonsters(monsters[0].concat(monsters[1]))
     setTurn(monsters[2])    
     setClientId(monsters[0][0].owner)
-    if(monsters[0].length === 0 || monsters[1].length === 0) setEndGame(true)
-    monsters[0].length > monsters[1].length ? setWinner(true) : setWinner(false)
+
+    const p1_m = monsters[0].filter(m => m.status === 'alive')
+    const p2_m = monsters[1].filter(m => m.status === 'alive')
+    if(p1_m.length === 0 || p2_m.length === 0) {
+      setEndGame(true)
+      p1_m.length > p2_m.length ? setWinner(true) : setWinner(false)
+    }
   })
+
   
   if (!all_monsters) return <div>Loading</div>
   else return (
