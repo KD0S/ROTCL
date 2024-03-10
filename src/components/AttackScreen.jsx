@@ -15,7 +15,10 @@ export const AttackScreen = (props) => {
     }
 
     const actionHandler = (e) => {
-        let changedMonster = props.all_monsters.find(monster => monster.id === e.target.value)
+
+        props.socket.emit("Ability", [selectedAbility[1], e.target.value]);
+
+        /*let changedMonster = props.all_monsters.find(monster => monster.id === e.target.value)
         if (selectedAbility[0] === 'spt') {
             let updatedHp = (changedMonster.currHp + parseInt(selectedAbility[1]))
             if (updatedHp > changedMonster.hp) updatedHp = changedMonster.hp
@@ -36,6 +39,9 @@ export const AttackScreen = (props) => {
 
         props.setAllMonsters(updatedMonsters)
         props.setTurn((props.turn + 1) % updatedMonsters.length)
+        setAtkSelected(false)*/
+        
+        //props.setTurn((props.turn + 1) % updatedMonsters.length)
         setAtkSelected(false)
     }
 
