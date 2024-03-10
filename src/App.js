@@ -1,15 +1,10 @@
 import './index.css';
 import { PetSlot } from './components/PetSlot';
-import monsters_p1 from './constants/monsters_p1';
-import monsters_p2 from './constants/monsters_p2';
-import monster from './monster';
 import { useEffect, useState } from 'react';
 import { AttackScreen } from './components/AttackScreen';
 import io from "socket.io-client";
 
 const socket = io.connect("http://localhost:3502")
-
-let x = 0
 
 function App() {
 
@@ -17,31 +12,18 @@ function App() {
   const [endgame, setEndGame] = useState(false)
   const [winner, setWinner] = useState(false)
   const [clientId, setClientId] = useState(null)
-  const [p1_monsters, setMonstersP1] = useState(null)
-  const [p2_monsters, setMonstersP2] = useState(null)
-
   
   const [all_monsters, setAllMonsters] = useState(null)
 
 
   socket.on("setState", (monsters) =>{
-    setMonstersP1(monsters[0]);
-    setMonstersP2(monsters[1]);
     setAllMonsters(monsters[0].concat(monsters[1]))
-    setTurn(monsters[2])
+    setTurn(monsters[2])    
     setClientId(monsters[0][0].owner)
-    console.log(all_monsters)
+    if(monsters[0].length === 0 || monsters[1].length === 0) setEndGame(true)
+    monsters[0].length > monsters[1].length ? setWinner(true) : setWinner(false)
   })
-
-
-
-  // if(x === 0)
-  // {
-  //   socket.emit('Ability', "test string")
-  //   x = x + 1;
-  // }
   
-
   if (!all_monsters) return <div>Loading</div>
   else return (
     <div className="bg-black h-screen w-screen flex-col rouded">
@@ -51,20 +33,16 @@ function App() {
       </div></div> : null}
       <div className='flex h-3/4'>
         <div className='flex-col p-12 w-1/2 h-full'> 
-          {all_monsters.slice(0, 3).map((p1_monster) => 
-              turn === p1_monster.id ?
-             <PetSlot orientation="r" details={p1_monster} curr={true} key={p1_monster.name}></PetSlot>
-            : <PetSlot orientation="r" details={p1_monster} key={p1_monster.name}></PetSlot>)}
+          {all_monsters.filter(monster => monster.owner === clientId && monster.status === "alive").map((p1_monster) => 
+             <PetSlot orientation="r" details={p1_monster} curr={turn === p1_monster.id ? true : false} key={p1_monster.name}></PetSlot>)}
         </div>
         <div className='flex-col p-12 w-1/2 h-full'> 
-          {all_monsters.slice(3, 6).map((p2_monster) =>  
-              turn=== p2_monster.id ?
-             <PetSlot orientation="l" details={p2_monster} curr={true} key={p2_monster.name}></PetSlot>
-            : <PetSlot orientation="l" details={p2_monster} key={p2_monster.name}></PetSlot>)}
+          {all_monsters.filter(monster => monster.owner !== clientId && monster.status === "alive").map((p2_monster) => 
+             <PetSlot orientation="l" details={p2_monster} curr={turn === p2_monster.id ? true : false} key={p2_monster.name}></PetSlot>)}
         </div>
       </div>
-        <AttackScreen socket={socket} client={clientId} all_monsters={all_monsters} setEndGame={setEndGame} 
-        setWinner={setWinner} setAllMonsters={setAllMonsters} turn={turn} setTurn={setTurn}></AttackScreen>
+        <AttackScreen socket={socket} client={clientId} all_monsters={all_monsters}  
+        setAllMonsters={setAllMonsters} turn={turn} setTurn={setTurn}></AttackScreen>
     </div>
 
   );
