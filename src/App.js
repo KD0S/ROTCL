@@ -1,9 +1,15 @@
 import './index.css';
 import { PetSlot } from './components/PetSlot';
 import { AttackScreen } from './components/AttackScreen';
+import UsersList from './components/UsersList';
 import io from "socket.io-client";
 import { useState } from 'react';
 const socket = io.connect("http://localhost:3502")
+
+socket.on("duelRequest", (duelRequest) =>{
+  console.log("numoftimes")
+  socket.emit("duelAccept", (duelRequest))
+})
 
 function App() {
 
@@ -13,6 +19,31 @@ function App() {
   const [clientId, setClientId] = useState(null)
   
   const [all_monsters, setAllMonsters] = useState(null)
+
+  const [inputValue, setInputValue] = useState('');
+
+  const [userList, setUserList] = useState(null);
+
+  const [myUsername, setUsername] = useState(null);
+
+  const handleDuelClick = (username) => {
+    // Emit socket event "duel" with the username
+    console.log(`Sending duel request ${myUsername} to ${username}`);
+    socket.emit('duel', {player: myUsername, opponent: username})
+    // Your socket.emit('duel', username) logic here
+  };
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleEmit = () => {
+    if (inputValue.trim() !== '') {
+      setUsername(inputValue.trim())
+      socket.emit("join server", inputValue.trim()); // Emit the value to the server
+      setInputValue(''); // Clear the input box after emitting
+    }
+  };
 
 
   socket.on("setState", (monsters) =>{
@@ -26,12 +57,27 @@ function App() {
       setEndGame(true)
       p1_m.length > p2_m.length ? setWinner(true) : setWinner(false)
     }
-  })
+  });
 
-  
-  if (!all_monsters) return <div>Loading</div>
+  socket.on("update user", (users) =>{
+    console.log(users)
+    setUserList(users)
+  });
+
+  if (!all_monsters) return <div>
+    <input 
+        type="text" 
+        value={inputValue} 
+        onChange={handleChange} 
+        placeholder="Enter your value" 
+      />
+      <button onClick={handleEmit}>Send Value</button>
+      <h1>Users List</h1>
+      <UsersList users={userList} onDuelClick={handleDuelClick} />
+  </div>
   else return (
     <div className="bg-black h-screen w-screen flex-col rouded">
+      
       {endgame ? <div><div className='absolute z-2 backdrop-blur h-screen w-screen'></div>
       <div className='absolute z-3 h-1/2 w-1/2 left-1/4 top-40 bg-slate-600 rounded-xl'>
         <p className='text-5xl font-bold text-center p-6'>{winner ? "You Win !" : "You Lose !" }</p>
