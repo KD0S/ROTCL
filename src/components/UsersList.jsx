@@ -6,17 +6,17 @@ const UsersList = ({ users, onDuelClick }) => {
     onDuelClick(username);
   };
 
-  if(!users) return <div>loading</div>
+  if (!users) return <div>loading</div>
   else
-  return (
-    <div>
-      {users.map((username) => (
-        <button key={username} onClick={() => handleDuelClick(username)}>
-          {username}
-        </button>
-      ))}
-    </div>
-  );
+    return (
+      <div>
+        {users.map((username) => (
+          <button key={username} onClick={() => handleDuelClick(username)}>
+            {username}
+          </button>
+        ))}
+      </div>
+    );
 };
 
 export default UsersList;

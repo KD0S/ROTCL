@@ -1,0 +1,5 @@
+export const RequiresAuth = () => {
+    return (
+        
+    )
+}
