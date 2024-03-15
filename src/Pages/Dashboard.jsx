@@ -39,7 +39,7 @@ const Dashboard = (props) => {
                     <SideNav battle={setIsBattle} users={usersList} uid={props.uid} socket={socket}></SideNav>
                 </div>
                 :
-                <BattleScreen socket={socket}></BattleScreen>
+                <BattleScreen battle={setIsBattle} socket={socket}></BattleScreen>
             }
         </div>
     )
