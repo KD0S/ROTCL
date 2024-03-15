@@ -20,15 +20,20 @@ const BattleScreen = (props) => {
     console.log("Triggered setState")
     console.log(monsters[0].concat(monsters[1]))
 
-    const p1_m = monsters[0].filter(m => m.status === 'alive')
+    /*const p1_m = monsters[0].filter(m => m.status === 'alive')
     const p2_m = monsters[1].filter(m => m.status === 'alive')
     if (p1_m.length === 0 || p2_m.length === 0) {
       console.log(p1_m)
       console.log(p2_m)
       setEndGame(true)
       p1_m.length > p2_m.length ? setWinner(true) : setWinner(false)
-    }
+    }*/
   });
+
+  props.socket.on("hasWon", (hasWon) => {
+    setEndGame(true)
+    setWinner(hasWon)
+  })
 
   if (!all_monsters) return <div>
   </div>
