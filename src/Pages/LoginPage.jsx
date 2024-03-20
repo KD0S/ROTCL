@@ -5,6 +5,7 @@ import { Register } from "../components/Register"
 import LoginForm from "../components/LoginForm"
 import Header from "../components/Header"
 import axios from "../api/axios"
+import Alert from "../components/Alert"
 
 const LoginPage = (props) => {
     const LOGIN_URL = '/login';
@@ -31,14 +32,16 @@ const LoginPage = (props) => {
             navigate('/home/dashboard')
         } catch (err) {
             setErrMsg(err.message)
+            setTimeout(() => {
+                setErrMsg('')
+            }, 5000)
         }
     }
 
     return (
         <div className="bg-slate-900 h-screen w-screen">
             <Header></Header>
-            <p className={errMsg ? "h-30 text-center bg-red-600 p-3 rounded-xl mt-5 mx-5 text-white font-bold"
-                : "hidden"}>{errMsg}</p>
+            {errMsg ? <Alert message={errMsg} type={"error"}></Alert> : null}
             {isLogin ?
                 <LoginForm setIsLogin={setIsLogin} username={username}
                     pwd={pwd} loginHandler={loginHandler}></LoginForm>

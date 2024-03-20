@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "../styles/index.css"
 import "../api/axios"
 import axios from "../api/axios";
+import Alert from "./Alert";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{1,11}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,20}$/
@@ -9,7 +10,6 @@ const EMAIL_REGEX = /^[a-z0-9-.#]+@[a-z]+\.[a-z]{2,3}$/
 
 export const Register = (props) => {
     const emailRef = useRef();
-    const errRef = useRef();
 
     const REGISTER_URL = 'register';
 
@@ -84,12 +84,10 @@ export const Register = (props) => {
 
     return (
         <section className="m-auto mt-20 w-1/2">
-            <p ref={errRef} className={errMsg ? "h-30 bg-red-600 p-3 rounded-xl mb-4 text-white font-bold" : "hidden"}
-                aria-live="assertive">{errMsg}</p>
-            <p className={success ? "h-30 bg-green-600 p-3 rounded-xl mb-4 text-white font-bold"
-                : "hidden"}>Registration Successfull! Redirecting to Login...</p>
-            <p className={wait ? "h-30 bg-orange-600 p-3 rounded-xl mb-4 text-white font-bold"
-                : "hidden"}>Waiting to Contact DB....</p>
+            {errMsg ? <Alert message={errMsg} type={"error"}></Alert> : null}
+            {success ? <Alert message={"Registration Successfull! Redirecting to Login..."}
+                type={"success"}></Alert> : null}
+            {wait ? <Alert message={"Waiting for Response from DB..."} type={"wait"}></Alert> : null}
             <h1 className="text-yellow-600 text-4xl font-bold text-center">Register</h1>
             <form className="flex w-1/2 flex-col m-auto mt-5">
                 <label className="text-white" htmlFor="email">Email Address
@@ -169,6 +167,6 @@ export const Register = (props) => {
                 <p className="text-white underline hover:cursor-pointer"
                     onClick={() => { props.setIsLogin(true) }}>Sign in</p>
             </form>
-        </section>
+        </section >
     )
 }
