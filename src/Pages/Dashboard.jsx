@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { SideNav } from '../components/SideNav';
 import BattleScreen from './BattleScreen';
 
-
 const socket = io.connect("http://localhost:3502");
 
 socket.on("duelRequest", (duelRequest) => {

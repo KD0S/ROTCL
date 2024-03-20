@@ -4,26 +4,41 @@ import { useNavigate } from "react-router-dom"
 import { Register } from "../components/Register"
 import LoginForm from "../components/LoginForm"
 import Header from "../components/Header"
+import axios from "../api/axios"
 
 const LoginPage = (props) => {
+    const LOGIN_URL = '/login';
+
     const username = useRef(null)
     const pwd = useRef(null)
     const navigate = useNavigate()
 
     const [isLogin, setIsLogin] = useState(true)
+    const [errMsg, setErrMsg] = useState('')
 
-    const loginHandler = () => {
-        if (username.current.value !== "") {
+    const loginHandler = async (e) => {
+        e.preventDefault()
+        try {
+            const response = await axios.post(LOGIN_URL,
+                JSON.stringify({ uid: username.current.value, pwd: pwd.current.value }),
+                {
+                    headers: { 'Content-Type': 'application/json' }
+                }
+            );
+            const accessToken = response?.data?.accessToken;
             props.authentication(true)
             props.setUsername(username.current.value)
             navigate('/home/dashboard')
+        } catch (err) {
+            setErrMsg(err.message)
         }
-        else alert('Invalid Credentials')
     }
 
     return (
         <div className="bg-slate-900 h-screen w-screen">
             <Header></Header>
+            <p className={errMsg ? "h-30 text-center bg-red-600 p-3 rounded-xl mt-5 mx-5 text-white font-bold"
+                : "hidden"}>{errMsg}</p>
             {isLogin ?
                 <LoginForm setIsLogin={setIsLogin} username={username}
                     pwd={pwd} loginHandler={loginHandler}></LoginForm>

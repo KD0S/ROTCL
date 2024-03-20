@@ -1,12 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import "../styles/index.css"
+import "../api/axios"
+import axios from "../api/axios";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{1,11}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,20}$/
+const EMAIL_REGEX = /^[a-z0-9-.#]+@[a-z]+\.[a-z]{2,3}$/
 
 export const Register = (props) => {
-    const userRef = useRef();
+    const emailRef = useRef();
     const errRef = useRef();
+
+    const REGISTER_URL = 'register';
+
+    const [email, setEmail] = useState('');
+    const [validEmail, setValidEmail] = useState(false);
+    const [emailFocus, setEmailFocus] = useState(false);
 
     const [user, setUser] = useState('');
     const [validName, setValidName] = useState(false);
@@ -22,10 +31,16 @@ export const Register = (props) => {
 
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
+    const [wait, setWait] = useState(false)
 
     useEffect(() => {
-        userRef.current.focus();
+        emailRef.current.focus();
     }, [])
+
+    useEffect(() => {
+        const result = EMAIL_REGEX.test(email.toLowerCase());
+        setValidEmail(result);
+    }, [email])
 
     useEffect(() => {
         const result = USER_REGEX.test(user);
@@ -43,17 +58,60 @@ export const Register = (props) => {
         setErrMsg('');
     }, [user, pwd, matchPwd])
 
+    const handleSignup = async (e) => {
+        e.preventDefault()
+        try {
+            setWait(true)
+            await axios.post(REGISTER_URL,
+                JSON.stringify({ uid: user, pwd: pwd, email: email }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    // withCredentials: true
+                }
+            );
+            setWait(false)
+            setUser('');
+            setPwd('');
+            setEmail('');
+            setSuccess(true);
+            setTimeout(() => {
+                props.setIsLogin(true)
+            }, 3000);
+        } catch (err) {
+            setErrMsg(err.message)
+        }
+    }
+
     return (
         <section className="m-auto mt-20 w-1/2">
-            <p ref={errRef} className={errMsg ? "w-screen h-10 bg-red-700" : "w-0 h-0"}
+            <p ref={errRef} className={errMsg ? "h-30 bg-red-600 p-3 rounded-xl mb-4 text-white font-bold" : "hidden"}
                 aria-live="assertive">{errMsg}</p>
+            <p className={success ? "h-30 bg-green-600 p-3 rounded-xl mb-4 text-white font-bold"
+                : "hidden"}>Registration Successfull! Redirecting to Login...</p>
+            <p className={wait ? "h-30 bg-orange-600 p-3 rounded-xl mb-4 text-white font-bold"
+                : "hidden"}>Waiting to Contact DB....</p>
             <h1 className="text-yellow-600 text-4xl font-bold text-center">Register</h1>
             <form className="flex w-1/2 flex-col m-auto mt-5">
+                <label className="text-white" htmlFor="email">Email Address
+                    <span className={!validEmail ? "bg-red-600 px-0.5 mx-2 rounded-md" : "hidden"}>✖</span>
+                    <span className={validEmail ? "bg-green-700 font-white px-0.5 mx-2 rounded-md" : "hidden"}>✔</span>
+                </label>
+                <input type="email" id="email" ref={emailRef} autoComplete="off"
+                    onChange={(e) => { setEmail(e.target.value) }}
+                    aria-invalid={validEmail ? "false" : "true"}
+                    aria-describedby="emailnote" onFocus={() => { setEmailFocus(true) }}
+                    onBlur={() => { setEmailFocus(false) }}
+                    className="rounded-lg px-2 py-1"
+                />
+                <p id="emailnote" className={emailFocus && email && !validEmail ?
+                    "bg-black rounded-xl text-white p-3 m-4" : "hidden"}>
+                    Must be a valid Email Address.
+                </p>
                 <label className="text-white" htmlFor="username">Username
                     <span className={!validName ? "bg-red-600 px-0.5 mx-2 rounded-md" : "hidden"}>✖</span>
                     <span className={validName ? "bg-green-700 font-white px-0.5 mx-2 rounded-md" : "hidden"}>✔</span>
                 </label>
-                <input type="text" id="username" ref={userRef} autoComplete="off"
+                <input type="text" id="username" autoComplete="off"
                     onChange={(e) => { setUser(e.target.value) }} required
                     aria-invalid={validName ? "false" : "true"}
                     aria-describedby="uidnote" onFocus={() => { setUserFocus(true) }}
@@ -105,7 +163,8 @@ export const Register = (props) => {
                 </p>
                 <button disabled={!validName || !validPwd || !validMatch}
                     className="text-white bg-yellow-600 rounded-lg 
-                m-auto mt-5 font-bold p-2 disabled:opacity-45">Sign Up</button>
+                m-auto mt-5 font-bold p-2 disabled:opacity-45"
+                    onClick={handleSignup}>Sign Up</button>
                 <p className="text-white">Already Registered?</p>
                 <p className="text-white underline hover:cursor-pointer"
                     onClick={() => { props.setIsLogin(true) }}>Sign in</p>
