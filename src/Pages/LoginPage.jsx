@@ -16,9 +16,11 @@ const LoginPage = (props) => {
 
     const [isLogin, setIsLogin] = useState(true)
     const [errMsg, setErrMsg] = useState('')
+    const [wait, setWait] = useState(false)
 
     const loginHandler = async (e) => {
         e.preventDefault()
+        setWait(true)
         try {
             const response = await axios.post(LOGIN_URL,
                 JSON.stringify({ uid: username.current.value, pwd: pwd.current.value }),
@@ -26,11 +28,13 @@ const LoginPage = (props) => {
                     headers: { 'Content-Type': 'application/json' }
                 }
             );
+            setWait(false)
             const accessToken = response?.data?.accessToken;
             props.authentication(true)
             props.setUsername(username.current.value)
             navigate('/home/dashboard')
         } catch (err) {
+            setWait(false)
             setErrMsg(err.message)
             setTimeout(() => {
                 setErrMsg('')
@@ -41,6 +45,7 @@ const LoginPage = (props) => {
     return (
         <div className="bg-slate-900 h-screen w-screen">
             <Header></Header>
+            {wait ? <Alert message={"Waiting for Response from DB"} type={"wait"}></Alert> : null}
             {errMsg ? <Alert message={errMsg} type={"error"}></Alert> : null}
             {isLogin ?
                 <LoginForm setIsLogin={setIsLogin} username={username}
