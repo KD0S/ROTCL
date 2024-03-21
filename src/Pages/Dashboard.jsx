@@ -5,6 +5,8 @@ import { SideNav } from '../components/SideNav';
 import BattleScreen from './BattleScreen';
 import Header from '../components/Header';
 import useAuth from '../hooks/useAuth';
+import useLogout from '../hooks/useLogout';
+import { useNavigate } from 'react-router-dom';
 
 const socket = io.connect("http://localhost:3502");
 
@@ -15,6 +17,13 @@ socket.on("duelRequest", (duelRequest) => {
 
 const Dashboard = (props) => {
     const { auth } = useAuth();
+    const navigate = useNavigate();
+    const logout = useLogout();
+
+    const signOut = async () => {
+        await logout();
+        navigate('/login');
+    }
 
     const [usersList, setUsersList] = useState([]);
     const [isBattle, setIsBattle] = useState(false);
@@ -36,8 +45,10 @@ const Dashboard = (props) => {
             <Header />
             {!isBattle ?
                 <div className='flex mx-20 mt-10'>
-                    <section className=''>
+                    <section className='flex gap-3'>
                         <h1 className='text-4xl font-bold text-yellow-600'>{`Welcome, ${auth.uid}`}</h1>
+                        <button className='bg-yellow-600 m-auto rounded-lg h-3/5 px-2 text-white text-sm font-bold
+                         hover:bg-red-600' onClick={signOut}>Sign Out</button>
                     </section>
                     <SideNav battle={setIsBattle} users={usersList} uid={props.uid} socket={socket}></SideNav>
                 </div>

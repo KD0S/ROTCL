@@ -1,10 +1,10 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import LoginPage from './Pages/LoginPage'
 import Register from './components/Register'
 import Dashboard from './Pages/Dashboard'
 import { Layout } from './components/Layout'
 import RequireAuth from './components/RequireAuth'
-
+import PersistLogin from './components/PersistLogin'
 
 const App = () => {
   return (
@@ -16,8 +16,10 @@ const App = () => {
       <Route path='register' element={<Register />} />
 
       {/* protected routes */}
-      <Route element={<RequireAuth />}>
-        <Route path='dashboard' element={<Dashboard />} />
+      <Route element={<PersistLogin />}>
+        <Route element={<RequireAuth />}>
+          <Route path='dashboard' element={<Dashboard />} />
+        </Route>
       </Route>
 
     </Routes>

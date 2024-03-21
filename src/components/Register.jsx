@@ -5,6 +5,7 @@ import axios from "../api/axios";
 import Alert from "./Alert";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{1,11}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,20}$/
@@ -14,6 +15,7 @@ export const Register = () => {
     const emailRef = useRef();
     const REGISTER_URL = 'register';
 
+    const { auth } = useAuth();
     const navigate = useNavigate()
 
     const [email, setEmail] = useState('');
@@ -35,6 +37,10 @@ export const Register = () => {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
     const [wait, setWait] = useState(false)
+
+    useEffect(() => {
+        if (auth.uid) navigate('/dashboard')
+    })
 
     useEffect(() => {
         emailRef.current.focus();

@@ -1,5 +1,5 @@
 import "../styles/index.css"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "../api/axios"
 import Alert from "../components/Alert"
@@ -8,8 +8,8 @@ import Header from "../components/Header"
 
 const LOGIN_URL = '/login';
 
-const LoginPage = (props) => {
-    const { setAuth } = useAuth();
+const LoginPage = () => {
+    const { auth, setAuth } = useAuth();
 
     const navigate = useNavigate();
 
@@ -18,6 +18,10 @@ const LoginPage = (props) => {
 
     const [errMsg, setErrMsg] = useState('')
     const [wait, setWait] = useState(false)
+
+    useEffect(() => {
+        if (auth.uid) navigate('/dashboard');
+    })
 
     const loginHandler = async (e) => {
         e.preventDefault()
