@@ -50,7 +50,7 @@ const Dashboard = (props) => {
                         <button className='bg-yellow-600 m-auto rounded-lg h-3/5 px-2 text-white text-sm font-bold
                          hover:bg-red-600' onClick={signOut}>Sign Out</button>
                     </section>
-                    <SideNav battle={setIsBattle} users={usersList} uid={props.uid} socket={socket}></SideNav>
+                    <SideNav battle={setIsBattle} users={usersList} uid={auth.uid} socket={socket}></SideNav>
                 </div>
                 :
                 <BattleScreen battle={setIsBattle} socket={socket}></BattleScreen>
