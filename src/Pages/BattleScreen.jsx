@@ -39,7 +39,7 @@ const BattleScreen = (props) => {
   </div>
 
   else return (
-    <div className="bg-black h-screen w-screen flex-col">
+    <div className="bg-slate-900 h-screen w-screen flex-col">
       {endgame ? <div><div className='absolute z-2 backdrop-blur h-screen w-screen'></div>
         <div className='flex flex-col absolute z-3 h-1/2 w-1/2 left-1/4 top-40 bg-slate-600 rounded-xl'>
           <p className='text-5xl font-bold text-center p-6'>{winner ? "You Win !" : "You Lose !"}</p>
