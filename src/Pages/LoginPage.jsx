@@ -37,7 +37,8 @@ const LoginPage = () => {
             setWait(false)
             const accessToken = response?.data?.accessToken;
             const uid = response?.data?.uid;
-            setAuth({ uid, pwd, accessToken });
+            const hasReceivedStarters = response?.data?.hasReceivedStarters
+            setAuth({ uid, accessToken, hasReceivedStarters });
             setUser('');
             setPwd('');
             navigate('/dashboard', { replace: true })

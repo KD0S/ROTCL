@@ -43,7 +43,8 @@ export const PetSlot = (props) => {
                                 </div>
                             </div>
                             <div className='m-3 rounded-full h-32 w-32 bg-orange-400 text-center'>{`${props.details.name} | ${props.details.owner}`}</div>
-                        </div>}
+                        </div>
+                    }
                 </div>
             }
         </div>
