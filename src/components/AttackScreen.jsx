@@ -4,12 +4,16 @@ export const AttackScreen = (props) => {
 
     const [atkSelected, setAtkSelected] = useState(false)
     const [selectedAbility, setSelectedAbility] = useState(null)
+    console.log(props.turn)
     const turnMonster = props.all_monsters.find(monster => monster.id === props.turn)
     const turnOwner = turnMonster.owner
 
+    console.log(turnOwner);
 
     const atkBtnHandler = (e) => {
         setSelectedAbility(e.target.value.split(','))
+        console.log(turnMonster.ability)
+        //console.log("selectedAbility = " + selectedAbility[0])
         setAtkSelected(true)
     }
 
@@ -40,7 +44,7 @@ export const AttackScreen = (props) => {
                     </div>
                     <div className='flex m-5 gap-6 justify-center'>
                         {
-                            selectedAbility[0] === 'atk' ?
+                            selectedAbility[0] === 'target' || selectedAbility[0] === 'aoe' ?
                                 props.all_monsters.filter(monster => monster.owner !== turnOwner).map(monster =>
                                     <button className='text-xl bg-slate-400 px-2 rounded-lg' value={monster.id} onClick={actionHandler}>{`${monster.name} | ${monster.owner} : ${monster.currHp}`}</button>)
                                 :
@@ -48,7 +52,7 @@ export const AttackScreen = (props) => {
                                     <button className='text-xl bg-slate-400 px-2 rounded-lg' value={monster.id} onClick={actionHandler}>{`${monster.name} | ${monster.owner} : ${monster.currHp}`}</button>)
                         }
                     </div>
-                </div> : props.all_monsters[props.turn].ability.map((ability => <button value={`${ability.type},${ability.dmg}`} onClick={atkBtnHandler} className='text-xl bg-slate-400 p-2 h-20 rounded-lg'>{`${ability.name}:${ability.dmg}`}</button>))
+                </div> : turnMonster.ability.map((ability => <button value={`${ability.target},${ability.name}`} onClick={atkBtnHandler} className='text-xl bg-slate-400 p-2 h-20 rounded-lg'>{`${ability.name}: 🔋 ${ability.stamina}`}</button>))
             }
         </div >
     )

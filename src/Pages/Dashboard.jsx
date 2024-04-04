@@ -68,7 +68,7 @@ const Dashboard = (props) => {
                                         <div className='rounded-2xl h-10 bg-slate-700 w-full p-2'>
                                             <div className='rounded-2xl h-6 bg-yellow-600 w-full 
                                                 text-center text-white font-bold'
-                                                style={{ width: `${(playerStats.exp / 100) * 100}%` }}>
+                                                style={{ width: `${(playerStats.exp + 30 / 100) * 100}%` }}>
                                                 {`EXP: ${playerStats.exp}`}
                                             </div>
                                         </div>

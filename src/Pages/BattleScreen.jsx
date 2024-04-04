@@ -17,8 +17,8 @@ const BattleScreen = (props) => {
     setTurn(monsters[2])
     setClientId(monsters[0][0].owner)
 
-    console.log("Triggered setState")
-    console.log(monsters[0].concat(monsters[1]))
+    // console.log("Triggered setState")
+    // console.log(monsters[0].concat(monsters[1]))
 
     /*const p1_m = monsters[0].filter(m => m.status === 'alive')
     const p2_m = monsters[1].filter(m => m.status === 'alive')
