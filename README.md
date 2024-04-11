@@ -12,5 +12,4 @@
 
 
 
-## Jai Shri Ram
 
