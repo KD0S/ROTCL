@@ -5,6 +5,7 @@ import Dashboard from './Pages/Dashboard'
 import { Layout } from './components/Layout'
 import RequireAuth from './components/RequireAuth'
 import PersistLogin from './components/PersistLogin'
+import MonsterPage from './Pages/MonsterPage'
 
 const App = () => {
   return (
@@ -20,8 +21,11 @@ const App = () => {
       {/* protected routes */}
       <Route element={<PersistLogin />}>
         <Route element={<RequireAuth />}>
-          <Route path='dashboard' element={<Dashboard />} />
-        </Route>
+              <Route path='dashboard'>
+                <Route index element={<Dashboard />}/> 
+                <Route path='monsters' element={<MonsterPage />} /> 
+              </Route>
+        </Route>  
       </Route>
 
     </Routes>

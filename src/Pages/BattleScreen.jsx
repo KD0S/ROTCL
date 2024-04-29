@@ -45,7 +45,7 @@ const BattleScreen = (props) => {
           <p className='text-5xl font-bold text-center p-6'>{winner ? "You Win !" : "You Lose !"}</p>
           <BackBtn battle={props.battle} socket={props.socket} ></BackBtn>
         </div></div> : null}
-      <div className='flex h-3/4'>
+      <div className='flex h-4/5'>
         <div className='flex-col p-12 w-1/2 h-full'>
           {all_monsters.filter(monster => monster.owner === clientId && monster.status === "alive").map((p1_monster) =>
             <PetSlot orientation="r" details={p1_monster} curr={turn === p1_monster.id ? true : false} key={p1_monster.name}></PetSlot>)}

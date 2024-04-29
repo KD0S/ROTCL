@@ -29,13 +29,13 @@ export const AttackScreen = (props) => {
 
     if (turnOwner !== props.client) {
         return (
-            <div className='flex gap-6 justify-center bg-blue-900 w-screen h-1/4 p-3'>
+            <div className='flex gap-6 justify-center bg-blue-900 w-screen h-1/5 p-3'>
                 <p className='font-bold text-3xl'>Waiting for Opponent to make a move......</p>
             </div>
         )
     }
     else return (
-        <div className='flex gap-6 justify-center bg-blue-900 w-screen h-1/4 p-3'>
+        <div className='flex gap-6 justify-center bg-blue-900 w-screen h-1/5 p-3'>
             {atkSelected ?
                 <div className='flex-col justify-center'>
                     <div className='flex gap-3'>

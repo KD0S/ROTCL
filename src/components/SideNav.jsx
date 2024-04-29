@@ -14,14 +14,22 @@ export const SideNav = ({ socket }) => {
         navigate('/login');
     }
 
+    const handleHomeBtb = () => {
+        navigate('/dashboard');
+    }
+
+    const handleMonsterBtn = () => {
+        navigate('/dashboard/monsters');
+    }
+
     return (
         <div className="h-screen left-0 w-40 bg-slate-700 p-4 flex flex-col">
             <h1 className="text-slate-900 text-4xl font-bold my-4">ROTCL</h1>
             <section className="flex flex-col gap-4 h-4/5 min-w-full my-2 py-5">
-                <div className="rounded-md px-2 py-1
-                text-yellow-600 font-bold cursor-pointer hover:bg-slate-900">Home</div>
-                <div className="rounded-md px-2 py-1
-                text-yellow-600 font-bold cursor-pointer hover:bg-slate-900">Monsters</div>
+                <button className="rounded-md px-2 py-1
+                text-yellow-600 font-bold  hover:bg-slate-900" onClick={handleHomeBtb}>Home</button>
+                <button className="rounded-md px-2 py-1
+                text-yellow-600 font-bold hover:bg-slate-900" onClick={handleMonsterBtn}>Monsters</button>
             </section>
             <button className="size-12 bg-red-600 rounded-md
             text-white mx-auto hover:bg-red-500 transition-all"
