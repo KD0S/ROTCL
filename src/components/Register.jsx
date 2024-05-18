@@ -7,7 +7,7 @@ import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
-const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{1,11}$/;
+const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{1,24}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,20}$/
 const EMAIL_REGEX = /^[a-z0-9-.#]+@[a-z]+\.[a-z]{2,3}$/
 

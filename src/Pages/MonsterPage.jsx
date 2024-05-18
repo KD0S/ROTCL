@@ -15,9 +15,8 @@ socket.on("duelRequest", (duelRequest) => {
 const MonsterPage = () => {
 
     const [usersList, setUsersList] = useState([]);
-    const [isBattle, setIsBattle] = useState(false);
+    const [, setIsBattle] = useState(false);
     const [pets, setPets] = useState([]);
-    const [petDetails, setPetDetails] = useState([]);
     const { auth } = useAuth()
 
     socket.on("update user", (users) => {
@@ -29,8 +28,9 @@ const MonsterPage = () => {
     });
 
     useEffect(() => {
-        axios.get(`pets/${auth.uid}`).then(
+        axios.get(`pets/player/${auth.uid}`).then(
             response => {
+                console.log(response.data);
                 setPets(response.data)
             }
         )
@@ -47,9 +47,9 @@ const MonsterPage = () => {
                 <div className='m-10'>
                     <h1 className='text-2xl font-bold text-slate-300'>Trained Pets</h1>
                     <div className='flex gap-6 p-4'>
-                        {petDetails ?
-                            pets.filter(pet => pet.isTrained).map(pet =>
-                                < img src={pet.imgPath} alt={pet.name} className='m-3 rounded-full flex h-36 w-36 bg-yellow-300 text-center'
+                        {pets ?
+                            pets.filter(pet => pet.is_trained).map(pet =>
+                                < img src={pet.monster_index.img_path} alt={pet.name} className='m-3 rounded-full flex h-36 w-36 bg-yellow-300 text-center'
                                 />
                             )
                             : null
@@ -59,9 +59,9 @@ const MonsterPage = () => {
                 <div className='m-10'>
                     <h1 className='text-2xl font-bold text-slate-300'>Untrained Pets</h1>
                     <div className='flex gap-6 p-4'>
-                        {petDetails ?
-                            pets.filter(pet => !pet.isTrained).map(pet =>
-                                < img src={pet.imgPath} alt={pet.name} className='m-3 rounded-full flex h-36 w-36 bg-yellow-300 text-center'
+                        {pets ?
+                            pets.filter(pet => !pet.is_trained).map(pet =>
+                                < img src={pet.monster_indeximg_path} alt={pet.name} className='m-3 rounded-full flex h-36 w-36 bg-yellow-300 text-center'
                                 />
                             )
                             : null
