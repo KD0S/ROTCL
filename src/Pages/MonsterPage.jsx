@@ -61,7 +61,7 @@ const MonsterPage = () => {
                     <div className='flex gap-6 p-4'>
                         {pets ?
                             pets.filter(pet => !pet.is_trained).map(pet =>
-                                < img src={pet.monster_indeximg_path} alt={pet.name} className='m-3 rounded-full flex h-36 w-36 bg-yellow-300 text-center'
+                                < img src={pet.monster_index.img_path} alt={pet.name} className='m-3 rounded-full flex h-36 w-36 bg-yellow-300 text-center'
                                 />
                             )
                             : null
