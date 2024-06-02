@@ -1,3 +1,5 @@
+import Spinner from "./Spinner"
+
 const Alert = ({ message, type }) => {
 
     const color = {
@@ -8,8 +10,11 @@ const Alert = ({ message, type }) => {
 
     return (
         <p className={`h-30 text-center ${color[type]}
-        p-3 rounded-xl mt-5 mx-5 text-white font-bold`}
-        >{message}</p>
+        p-3 rounded-xl mt-5 mx-5 text-white font-bold flex gap-5 justify-center`}
+        >
+            {type === 'wait' ? <Spinner h={5} w={5} /> : null}
+            {message}
+        </p>
     )
 }
 

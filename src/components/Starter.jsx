@@ -18,7 +18,7 @@ const Starter = ({ backToDashboard }) => {
         axios.get('/monsters/starters').then(
             response => setStarters(response.data)
         )
-    })
+    }, [])
 
     const handleClick = (e) => {
         if (btns.find((btn) => btn.alt === e.target.alt)) {
@@ -62,7 +62,7 @@ const Starter = ({ backToDashboard }) => {
                 <h1 className='text-white font-bold text-3xl text-center'>Choose Any 3 Starter Pets</h1>
                 <div className='bg-yellow-600 mx-auto flex flex-row justify-center gap-6 p-10 rounded-xl flex-wrap'>
                     {starters.map(starter =>
-                        <img alt={starter.name} height={'150px'} width={'150px'} src={starter.imgPath} className={status['notSelected']} onClick={handleClick} />)
+                        <img alt={starter.name} height={'150px'} width={'150px'} src={starter.img_path} className={status['notSelected']} onClick={handleClick} />)
                     }
                 </div>
                 <button className='text-slate-800 p-2 font-bold rounded-full w-40 mx-auto bg-slate-300 hover:bg-slate-600  hover:text-slate-300 transition-all' onClick={handleSubmit}>Submit</button>

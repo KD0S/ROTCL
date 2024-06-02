@@ -7,6 +7,7 @@ import axios from '../api/axios';
 import Starter from '../components/Starter';
 import Stats from '../components/Stats';
 import { io } from 'socket.io-client';
+import Spinner from '../components/Spinner';
 
 const socket = io.connect('localhost:3500')
 
@@ -59,7 +60,9 @@ const Dashboard = () => {
                         {
                             playerStats ?
                                 <Stats starters={starters} playerStats={playerStats} />
-                                : <p className='text-yellow-600 font-bold text-2xl'>Loading Stats....</p>
+                                : <div className='justify-center mt-40 mx-auto'>
+                                    <Spinner h={20} w={20} color={'text-yellow-400'} />
+                                </div>
                         }
                     </section>
                     <DuelNav battle={setIsBattle} users={usersList} uid={auth.uid} socket={socket}></DuelNav>
