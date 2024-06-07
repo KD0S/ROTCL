@@ -19,9 +19,6 @@ const slots = {
 }
 
 const PetDetails = ({ setRefresh, display, handleModal, petDetails, abilityDetails }) => {
-
-    console.log('render');
-
     const handleAddAbility = async () => {
         const response = await axios.post(`http://localhost:3001/ability/pet/assignAbility/${petDetails.monster_index.rarity}/${petDetails.mid}`);
         let abilites_temp = abilities;
