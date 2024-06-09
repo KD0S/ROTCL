@@ -1,11 +1,10 @@
 import { Routes, Route } from 'react-router-dom'
 import LoginPage from './Pages/LoginPage'
 import Register from './components/Register'
-import Dashboard from './Pages/Dashboard'
 import { Layout } from './components/Layout'
 import RequireAuth from './components/RequireAuth'
 import PersistLogin from './components/PersistLogin'
-import MonsterPage from './Pages/MonsterPage'
+import Home from './Pages/Home'
 
 const App = () => {
   return (
@@ -22,8 +21,9 @@ const App = () => {
       <Route element={<PersistLogin />}>
         <Route element={<RequireAuth />}>
               <Route path='dashboard'>
-                <Route index element={<Dashboard />}/> 
-                <Route path='monsters' element={<MonsterPage />} /> 
+                <Route index element={<Home page={'dashboard'} />}/> 
+                <Route path='monsters' element={<Home page={'monsterPage'}/>} />
+                <Route path='leaderboard' element={<Home page={'leaderboard'} />} />
               </Route>
         </Route>  
       </Route>

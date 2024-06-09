@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react'
 import { io } from 'socket.io-client'
-import { SideNav } from '../components/SideNav'
-import { DuelNav } from '../components/DuelNav'
-import useAuth from '../hooks/useAuth'
 import axios from '../api/axios'
 import PetDetails from '../components/PetDetails'
 
@@ -13,24 +10,13 @@ socket.on("duelRequest", (duelRequest) => {
     socket.emit("duelAccept", (duelRequest));
 })
 
-const MonsterPage = () => {
-    const { auth } = useAuth();
-    const [usersList, setUsersList] = useState([]);
+const MonsterPage = ({ auth }) => {
     const [updateTrigger, setUpdateTrigger] = useState(true);
-    const [, setIsBattle] = useState(false);
     const [petsDetails, setPetsDetails] = useState([]);
     const [abilityDetails, setAbilityDetails] = useState({});
     const [petDetailsModal, setPetDetailsModal] = useState('hidden');
     const [selectedPetDetails, setSelectedPetDetails] = useState([]);
     const [selectedPetAbilityDetails, setSelectedPetAbilityDetails] = useState([]);
-
-    socket.on("update user", (users) => {
-        setUsersList(users.filter(user => user !== auth.uid))
-    });
-
-    socket.on("duelRequest", () => {
-        setIsBattle(true)
-    });
 
     useEffect(() => {
         const fetchPets = () => {
@@ -61,11 +47,6 @@ const MonsterPage = () => {
         setUpdateTrigger(prev => !prev);
     }
 
-
-    useEffect(() => {
-        socket.emit('join server', auth.uid);
-    }, [auth]);
-
     const handleModal = (e) => {
         if (petDetailsModal === 'hidden') {
             setSelectedPetDetails(petsDetails.find(pet => pet.mid === e.target.id));
@@ -77,9 +58,8 @@ const MonsterPage = () => {
     return (
         <div className='bg-slate-900'>
             <div className='flex'>
-                <SideNav socket={socket}></SideNav>
                 {petDetailsModal === 'hidden' ? null : <PetDetails setRefresh={handleUpdateTrigger} display={petDetailsModal} handleModal={handleModal} petDetails={selectedPetDetails} abilityDetails={selectedPetAbilityDetails}></PetDetails>}
-                <div className='w-3/4'>
+                <div>
                     <div className='p-10'>
                         <h1 className='text-2xl font-bold text-slate-300'>Trained Pets</h1>
                         <div className='flex gap-6 p-4'>
@@ -107,7 +87,6 @@ const MonsterPage = () => {
                         </div>
                     </div>
                 </div>
-                <DuelNav battle={setIsBattle} users={usersList} uid={auth.uid} socket={socket}></DuelNav>
             </div>
         </div>
     )
