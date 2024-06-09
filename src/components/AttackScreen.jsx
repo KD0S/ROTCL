@@ -6,6 +6,8 @@ export const AttackScreen = (props) => {
     const [selectedAbility, setSelectedAbility] = useState(null)
     console.log(props.turn)
     const turnMonster = props.all_monsters.find(monster => monster.id === props.turn)
+    console.log("turn monster:")
+    console.log(turnMonster.ability)
     const turnOwner = turnMonster.owner
 
     console.log(turnOwner);
@@ -52,7 +54,7 @@ export const AttackScreen = (props) => {
                                     <button className='text-xl bg-slate-400 px-2 rounded-lg' value={monster.id} onClick={actionHandler}>{`${monster.name} | ${monster.owner} : ${monster.currHp}`}</button>)
                         }
                     </div>
-                </div> : turnMonster.ability.map((ability => <button value={`${ability.target},${ability.name}`} onClick={atkBtnHandler} className='text-xl bg-slate-400 p-2 h-20 rounded-lg'>{`${ability.name}: 🔋 ${ability.stamina}`}</button>))
+                </div> : turnMonster.ability.map((ability => <button value={`${ability.abilities.target},${ability.abilities.name}`} onClick={atkBtnHandler} className='text-xl bg-slate-400 p-2 h-20 rounded-lg'>{`${ability.abilities.name}: 🔋 ${ability.abilities.stamina}`}</button>))
             }
         </div >
     )

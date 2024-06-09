@@ -1,0 +1,19 @@
+{
+    "sqltools.connections": [
+        {
+            "mssqlOptions": {
+                "appName": "SQLTools",
+                "useUTC": true,
+                "encrypt": true
+            },
+            "previewLimit": 50,
+            "server": "rotcl.database.windows.net",
+            "port": 1433,
+            "driver": "MSSQL",
+            "name": "ROTCL-db",
+            "database": "ROTCL-DB",
+            "username": "ROTCL-admin",
+            "password": "Thisgamegoesh4rd"
+        }
+    ]
+}
