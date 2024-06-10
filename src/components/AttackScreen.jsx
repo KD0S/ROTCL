@@ -23,11 +23,9 @@ export const AttackScreen = (props) => {
         setAtkSelected(false)
     }
 
-    const actionHandler = (e) => {
-
+    const actionHandler = (e) =>
         props.socket.emit("Ability", [selectedAbility[1], e.target.value]);
-        setAtkSelected(false)
-    }
+    setAtkSelected(false)
 
     if (turnOwner !== props.client) {
         return (
@@ -36,6 +34,7 @@ export const AttackScreen = (props) => {
             </div>
         )
     }
+
     else return (
         <div className='flex gap-6 justify-center bg-blue-900 w-screen h-1/5 p-3'>
             {atkSelected ?

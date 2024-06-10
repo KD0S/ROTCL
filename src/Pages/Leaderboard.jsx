@@ -3,7 +3,7 @@ import axios from '../api/axios'
 import Spinner from '../components/Spinner'
 import LeaderBoardItem from '../components/LeaderBoardItem'
 
-const Leaderboard = ({ auth }) => {
+const Leaderboard = () => {
 
     const [players, setPlayers] = useState([])
 
@@ -26,7 +26,7 @@ const Leaderboard = ({ auth }) => {
                         </div>
                         :
                         <div className='flex gap-2 flex-col mx-auto'>
-                            {players.map((player, idx) => <LeaderBoardItem uid={player.uid} idx={idx + 1} />)}
+                            {players.map((player, idx) => <LeaderBoardItem uid={player.uid} idx={idx + 1} exp={player.exp} />)}
                         </div>
                 }
             </div>

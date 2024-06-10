@@ -46,7 +46,7 @@ const LoginPage = () => {
             setWait(false)
             if (!err?.response) setErrMsg('No Server Response');
             else if (err.response?.status === 400) setErrMsg('Missing Username or Passwored');
-            else if (err.response?.status === 401) setErrMsg('Unauthorized');
+            else if (err.response?.status === 401) setErrMsg('Incorrect Credentials');
             else setErrMsg('Login Failed');
             setTimeout(() => {
                 setErrMsg('')

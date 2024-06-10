@@ -20,7 +20,7 @@ const slots = {
 
 const PetDetails = ({ setRefresh, display, handleModal, petDetails, abilityDetails }) => {
     const handleAddAbility = async () => {
-        const response = await axios.post(`http://localhost:3001/ability/pet/assignAbility/${petDetails.monster_index.rarity}/${petDetails.mid}`);
+        const response = await axios.post(`http://localhost:3001/ability/pet/assignAbility/${petDetails.monster_index.rarity}/${petDetails.mid}`, { 'curr_abilities': abilities, slots: slots[petDetails.monster_index.rarity] });
         let abilites_temp = abilities;
         abilites_temp.every((ability, idx) => {
             if (!ability) {
