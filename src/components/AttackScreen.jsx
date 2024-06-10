@@ -23,9 +23,10 @@ export const AttackScreen = (props) => {
         setAtkSelected(false)
     }
 
-    const actionHandler = (e) =>
+    const actionHandler = (e) => {
         props.socket.emit("Ability", [selectedAbility[1], e.target.value]);
-    setAtkSelected(false)
+        setAtkSelected(false)
+    }
 
     if (turnOwner !== props.client) {
         return (

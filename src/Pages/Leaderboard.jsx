@@ -22,7 +22,7 @@ const Leaderboard = () => {
                 {
                     players.length === 0 ?
                         <div className='flex justify-center mt-40 m-auto'>
-                            <Spinner h={20} w={20} b={8} color={'text-yellow-400'} />
+                            <Spinner h={20} w={20} color={'fill-yellow-400'} />
                         </div>
                         :
                         <div className='flex gap-2 flex-col mx-auto'>

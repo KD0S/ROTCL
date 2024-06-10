@@ -31,7 +31,7 @@ const Dashboard = ({ auth }) => {
                         <Stats starters={starters} playerStats={playerStats} />
                         :
                         <div className='flex justify-center mt-40 m-auto'>
-                            <Spinner h={20} w={20} b={8} color={'text-yellow-400'} />
+                            <Spinner h={20} w={20} b={8} color={'fill-yellow-400'} />
                         </div>
                 }
             </div>

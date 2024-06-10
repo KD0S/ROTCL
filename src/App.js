@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import LoginPage from './Pages/LoginPage'
 import Register from './components/Register'
-import { Layout } from './components/Layout'
 import RequireAuth from './components/RequireAuth'
 import PersistLogin from './components/PersistLogin'
 import Home from './Pages/Home'
@@ -9,11 +8,11 @@ import Home from './Pages/Home'
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<Layout></Layout>}></Route>
 
       {/* public routes */}
       <Route element={<PersistLogin />}>
-        <Route path="login" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path='register' element={<Register />} />
       </Route>
 

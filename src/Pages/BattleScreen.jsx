@@ -35,8 +35,7 @@ const BattleScreen = (props) => {
     setWinner(hasWon)
   })
 
-  if (!all_monsters) return <div>
-  </div>
+  if (!all_monsters) return <div>Connecting!!</div>
 
   else return (
     <div className="bg-slate-900 h-screen w-screen flex-col">
