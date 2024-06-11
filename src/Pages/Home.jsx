@@ -46,7 +46,7 @@ const Home = ({ page }) => {
     }
 
     return (
-        <div className='bg-slate-900 h-screen'>
+        <div className='bg-slate-900 max-h-full'>
             {starters ?
                 <Starter backToDashboard={setStarters} />
                 : null
