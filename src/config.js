@@ -3,7 +3,7 @@ const prod = {
 };
 
 const dev = {
-	BASE_URL: 'http://localhost:3001',
+	BASE_URL: 'https://rotcl-backend.onrender.com',
 };
 
 export const config = process.env.NODE_ENV === 'development' ? dev : prod;

@@ -9,7 +9,7 @@ const Leaderboard = () => {
 
     useEffect(() => {
         async function fetch() {
-            const response = await axios.get('http://localhost:3001/stats');
+            const response = await axios.get('https://rotcl-backend.onrender.com/stats');
             setPlayers(response.data);
         }
         fetch();

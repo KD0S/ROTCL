@@ -9,7 +9,7 @@ import Dashboard from './Dashboard';
 import MonsterPage from './MonsterPage';
 import Leaderboard from './Leaderboard';
 
-const socket = io.connect('localhost:3500')
+const socket = io.connect('https://rotcl-socket.onrender.com')
 
 socket.on("duelRequest", (duelRequest) => {
     console.log("numoftimes");
