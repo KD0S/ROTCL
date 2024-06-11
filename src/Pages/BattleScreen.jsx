@@ -1,16 +1,23 @@
 import '../styles/index.css';
 import { PetSlot } from '../components/PetSlot';
 import { AttackScreen } from '../components/AttackScreen';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BackBtn } from '../components/BackBtn';
+import { DndContext } from '@dnd-kit/core';
 
 const BattleScreen = (props) => {
   const [turn, setTurn] = useState(null)
   const [endgame, setEndGame] = useState(false)
   const [winner, setWinner] = useState(false)
   const [clientId, setClientId] = useState(null)
+  console.log(clientId);
+  const [atkChosen, setAtkChosen] = useState(false);
 
   const [all_monsters, setAllMonsters] = useState(null)
+
+  useEffect(() => {
+
+  }, [turn])
 
   props.socket.on("setState", (monsters) => {
     setAllMonsters(monsters[0].concat(monsters[1]))
@@ -35,29 +42,40 @@ const BattleScreen = (props) => {
     setWinner(hasWon)
   })
 
-  if (!all_monsters) return <div>Connecting!!</div>
+  const handleDragEnd = (e) => {
+    const { active, over } = e;
+    if (over) {
+      console.log(active.data.current.id, over.data.current);
+      props.socket.emit("Ability", [active.data.current.id, over.data.current.id]);
+    };
+    setAtkChosen(false);
+  }
+
+  if (!all_monsters) return <div></div>
 
   else return (
-    <div className="bg-slate-900 h-screen w-screen flex-col">
-      {endgame ? <div><div className='absolute z-2 backdrop-blur h-screen w-screen'></div>
-        <div className='flex flex-col absolute z-3 h-1/2 w-1/2 left-1/4 top-40 bg-slate-600 rounded-xl'>
-          <p className='text-5xl font-bold text-center p-6'>{winner ? "You Win !" : "You Lose !"}</p>
-          <BackBtn battle={props.battle} socket={props.socket} ></BackBtn>
-        </div></div> : null}
-      <div className='flex h-4/5'>
-        <div className='flex-col p-12 w-1/2 h-full'>
-          {all_monsters.filter(monster => monster.owner === clientId && monster.status === "alive").map((p1_monster) =>
-            <PetSlot orientation="r" details={p1_monster} curr={turn === p1_monster.id ? true : false} key={p1_monster.name}></PetSlot>)}
+    <DndContext onDragEnd={handleDragEnd}>
+      <div className="bg-slate-900 h-screen w-screen flex-col">
+        {endgame ? <div><div className='absolute z-2 backdrop-blur h-screen w-screen'></div>
+          <div className='flex flex-col absolute z-3 h-1/2 w-1/2 left-1/4 top-40 bg-slate-600 rounded-xl'>
+            <p className='text-5xl font-bold text-center p-6'>{winner ? "You Win !" : "You Lose !"}</p>
+            <BackBtn battle={props.battle} socket={props.socket} ></BackBtn>
+          </div></div> : null}
+        <div className='flex h-4/5'>
+          <div className='flex-col p-12 w-1/2 h-full'>
+            {all_monsters.filter(monster => monster.owner === clientId && monster.status === "alive").map((p1_monster) =>
+              <PetSlot orientation="r" details={p1_monster} curr={turn === p1_monster.id ? true : false} key={p1_monster.name}></PetSlot>)}
+          </div>
+          <div className='flex-col p-12 w-1/2 h-full'>
+            {all_monsters.filter(monster => monster.owner !== clientId && monster.status === "alive").map((p2_monster) =>
+              <PetSlot orientation="l" details={p2_monster} curr={turn === p2_monster.id ? true : false} key={p2_monster.name}></PetSlot>)}
+          </div>
         </div>
-        <div className='flex-col p-12 w-1/2 h-full'>
-          {all_monsters.filter(monster => monster.owner !== clientId && monster.status === "alive").map((p2_monster) =>
-            <PetSlot orientation="l" details={p2_monster} curr={turn === p2_monster.id ? true : false} key={p2_monster.name}></PetSlot>)}
-        </div>
-      </div>
-      <AttackScreen socket={props.socket} client={clientId} all_monsters={all_monsters}
-        setAllMonsters={setAllMonsters} turn={turn} setTurn={setTurn}></AttackScreen>
-    </div >
-
+        {<AttackScreen socket={props.socket} client={clientId} all_monsters={all_monsters}
+          setAllMonsters={setAllMonsters} turn={turn} setTurn={setTurn}>
+        </AttackScreen>}
+      </div >
+    </DndContext>
   );
 }
 
