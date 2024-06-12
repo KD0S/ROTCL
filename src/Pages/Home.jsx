@@ -13,7 +13,16 @@ import { config } from '../config';
 const socket = io.connect(config.SOCKET_URL)
 
 socket.on("duelRequest", (duelRequest) => {
-    console.log("numoftimes");
+    
+    /*
+        Add logic to store duelRequest in state
+        then display duelRequest Info in a modal 
+        and then let the modal emit duelAccept with (duelRequest) as param
+
+        Should work since setting battle to true (with "duelJoin") 
+        is done after "duelAccept" is emitted now (for both player and opp).
+    */
+
     socket.emit("duelAccept", (duelRequest));
 })
 
@@ -33,7 +42,7 @@ const Home = ({ page }) => {
     });
 
     socket.on("duelRequest", () => {
-        setIsBattle(true)
+        //setIsBattle(true)
     });
 
     useEffect(() => {
