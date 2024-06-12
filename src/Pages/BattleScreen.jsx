@@ -6,6 +6,7 @@ import { BackBtn } from '../components/BackBtn';
 import { DndContext } from '@dnd-kit/core';
 
 const BattleScreen = (props) => {
+  const [disableAbility, setDisableAbility] = useState(false);
   const [turn, setTurn] = useState(null)
   const [endgame, setEndGame] = useState(false)
   const [winner, setWinner] = useState(false)
@@ -21,6 +22,7 @@ const BattleScreen = (props) => {
     setAllMonsters(monsters[0].concat(monsters[1]))
     setTurn(monsters[2])
     setClientId(monsters[0][0].owner)
+    setDisableAbility(false);
 
     // console.log("Triggered setState")
     // console.log(monsters[0].concat(monsters[1]))
@@ -41,11 +43,15 @@ const BattleScreen = (props) => {
   })
 
   const handleDragEnd = (e) => {
-    const { active, over } = e;
-    if (over) {
-      console.log(active.data.current.id, over.data.current);
-      props.socket.emit("Ability", [active.data.current.id, over.data.current.id]);
-    };
+    if (!disableAbility) {
+      const { active, over } = e;
+      if (over) {
+        setDisableAbility(true);
+        console.log(active.data.current.id, over.data.current);
+        props.socket.emit("Ability", [active.data.current.id, over.data.current.id]);
+      };
+      setAtkChosen(false);
+    }
   }
 
   if (!all_monsters) return <div></div>
