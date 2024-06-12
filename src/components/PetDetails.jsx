@@ -2,6 +2,7 @@ import { faPlus, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "../api/axios"
 import { useEffect, useState } from "react"
+import { config } from "../config"
 
 const h1Color = {
     'Common': 'text-white',
@@ -24,7 +25,7 @@ const PetDetails = ({ setRefresh, display, handleModal, petDetails, abilityDetai
 
     const handleAddAbility = async () => {
         setDisableButton(true);
-        const response = await axios.post(`https://rotcl-backend.onrender.com/ability/pet/assignAbility/${petDetails.monster_index.rarity}/${petDetails.mid}`, { 'curr_abilities': abilities, slots: slots[petDetails.monster_index.rarity] });
+        const response = await axios.post(`${config.SERVER_URL}/ability/pet/assignAbility/${petDetails.monster_index.rarity}/${petDetails.mid}`, { 'curr_abilities': abilities, slots: slots[petDetails.monster_index.rarity] });
         let abilites_temp = abilities;
         abilites_temp.every((ability, idx) => {
             if (!ability) {
@@ -69,7 +70,7 @@ const PetDetails = ({ setRefresh, display, handleModal, petDetails, abilityDetai
                 <h2 className="text-xl font-bold text-center text-white">Abilities</h2>
                 <div className="flex justify-center gap-5 m-4">
                     {abilities.map(ability => {
-                        if (!ability) return <button onClick={handleAddAbility} disabled= { disableButton } className="flex-1 rounded-lg bg-gray-500 p-1 text-white font-bold"><FontAwesomeIcon icon={faPlus} /></button>
+                        if (!ability) return <button onClick={handleAddAbility} disabled={disableButton} className="flex-1 rounded-lg bg-gray-500 p-1 text-white font-bold"><FontAwesomeIcon icon={faPlus} /></button>
                         else return <button className="flex-1 rounded-lg bg-yellow-600 p-1 text-white font-bold">{ability}</button>
                     })}
 

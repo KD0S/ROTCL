@@ -4,6 +4,7 @@ import Spinner from '../components/Spinner'
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import LeaderBoardItem from '../components/LeaderBoardItem'
+import { config } from '../config'
 
 const Leaderboard = () => {
     const [players, setPlayers] = useState([]);
@@ -12,7 +13,7 @@ const Leaderboard = () => {
 
     useEffect(() => {
         async function fetch() {
-            const response = await axios.get('https://rotcl-backend.onrender.com/stats');
+            const response = await axios.get(`${config.SERVER_URL}/stats`);
             setPlayers(response.data);
         }
         fetch();

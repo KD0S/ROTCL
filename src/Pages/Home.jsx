@@ -8,8 +8,9 @@ import { io } from 'socket.io-client';
 import Dashboard from './Dashboard';
 import MonsterPage from './MonsterPage';
 import Leaderboard from './Leaderboard';
+import { config } from '../config';
 
-const socket = io.connect('https://rotcl-socket.onrender.com')
+const socket = io.connect(config.SOCKET_URL)
 
 socket.on("duelRequest", (duelRequest) => {
     console.log("numoftimes");

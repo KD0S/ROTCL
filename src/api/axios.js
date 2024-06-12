@@ -1,5 +1,6 @@
 import axios from "axios";
-const BASE_URL = 'https://rotcl-backend.onrender.com';
+import { config } from "../config";
+const BASE_URL = `${config.SERVER_URL}`;
 
 axios.defaults.withCredentials = true
 
