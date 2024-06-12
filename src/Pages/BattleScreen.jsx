@@ -50,7 +50,6 @@ const BattleScreen = (props) => {
         console.log(active.data.current.id, over.data.current);
         props.socket.emit("Ability", [active.data.current.id, over.data.current.id]);
       };
-      setAtkChosen(false);
     }
   }
 
