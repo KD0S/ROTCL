@@ -10,8 +10,6 @@ const BattleScreen = (props) => {
   const [endgame, setEndGame] = useState(false)
   const [winner, setWinner] = useState(false)
   const [clientId, setClientId] = useState(null)
-  console.log(clientId);
-  const [atkChosen, setAtkChosen] = useState(false);
 
   const [all_monsters, setAllMonsters] = useState(null)
 
@@ -48,7 +46,6 @@ const BattleScreen = (props) => {
       console.log(active.data.current.id, over.data.current);
       props.socket.emit("Ability", [active.data.current.id, over.data.current.id]);
     };
-    setAtkChosen(false);
   }
 
   if (!all_monsters) return <div></div>
