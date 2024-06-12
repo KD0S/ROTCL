@@ -1,5 +1,5 @@
 const prod = {
-	SERVER_URL: 'https://rotcl-server.onrender.com',
+	SERVER_URL: 'https://rotcl-backend.onrender.com',
 	SOCKET_URL: 'https://rotcl-socket.onrender.com'
 };
 
