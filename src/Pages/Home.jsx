@@ -9,24 +9,35 @@ import Dashboard from './Dashboard';
 import MonsterPage from './MonsterPage';
 import Leaderboard from './Leaderboard';
 import { config } from '../config';
+import DuelRequestModal from '../components/DuelRequestModal';
 
 const socket = io.connect(config.SOCKET_URL)
 
-socket.on("duelRequest", (duelRequest) => {
-    
-    /*
-        Add logic to store duelRequest in state
-        then display duelRequest Info in a modal 
-        and then let the modal emit duelAccept with (duelRequest) as param
-
-        Should work since setting battle to true (with "duelJoin") 
-        is done after "duelAccept" is emitted now (for both player and opp).
-    */
-
-    socket.emit("duelAccept", (duelRequest));
-})
 
 const Home = ({ page }) => {
+
+    const [duelR, setDuelR] = useState(null);
+
+    const [duelRequestModal, setDuelRequestModal] = useState('hidden');
+
+    const handleModal = (e) => {
+        duelRequestModal === 'hidden' ? setDuelRequestModal('block') : setDuelRequestModal('hidden');
+    }
+
+    const acceptDuelRequest = () => {
+        setDuelRequestModal('hidden')
+        socket.emit("duelAccept", (duelR));
+    }
+
+
+    socket.on("duelRequest", (duelRequest) => {
+
+        setDuelR(duelRequest)
+        handleModal()
+        
+    })
+
+    
     const { auth } = useAuth();
     const [starters, setStarters] = useState(false);
 
@@ -57,6 +68,7 @@ const Home = ({ page }) => {
 
     return (
         <div className='bg-slate-900 max-h'>
+            {duelRequestModal === 'hidden' ? null : <DuelRequestModal className='z-10' duelRequest={ duelR } display={duelRequestModal} handleModal={handleModal} duelAccept= {acceptDuelRequest}></DuelRequestModal>}
             {starters ?
                 <Starter backToDashboard={setStarters} />
                 : null
