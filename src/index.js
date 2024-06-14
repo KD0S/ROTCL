@@ -16,7 +16,7 @@ function addAdSenseScript() {
 }
 
 // Conditionally load AdSense script in production environment
-if (process.env.REACT_APP_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   addAdSenseScript();
 }
 
