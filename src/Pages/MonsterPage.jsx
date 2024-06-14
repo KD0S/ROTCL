@@ -79,7 +79,7 @@ const MonsterPage = ({ auth }) => {
                     </div>
                     :
                     <div className='flex justify-center mt-40 m-auto'>
-                        <Spinner h={20} w={20} b={8} color={'fill-yellow-400'} />
+                        <Spinner h={10} w={10} b={8} color={'fill-yellow-400'} />
                     </div>
                 }
             </div>

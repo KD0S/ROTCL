@@ -33,7 +33,7 @@ const Leaderboard = () => {
                 {
                     players.length === 0 ?
                         <div className='h-flex justify-center mt-40 m-auto'>
-                            <Spinner h={20} w={20} color={'fill-yellow-400'} />
+                            <Spinner h={10} w={10} color={'fill-yellow-400'} />
                         </div>
                         :
                         <div className='mx-auto'>

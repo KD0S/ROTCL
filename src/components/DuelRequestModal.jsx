@@ -1,22 +1,35 @@
-import { faPlus, faXmark } from "@fortawesome/free-solid-svg-icons"
+import { faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import axios from "../api/axios"
-import { useEffect, useState } from "react"
-import { config } from "../config"
+import { useState } from "react"
 
 const DuelRequestModal = ({ duelRequest, display, handleModal, duelAccept }) => {
+    const [width, setWidth] = useState(100);
+
+    const intervalID = setInterval(() => {
+        if (display === 'hidden') return;
+        setWidth(prev => prev - 10);
+    }, 1000)
+
+    setTimeout(() => {
+        handleModal();
+        clearInterval(intervalID);
+    }, 5000)
+
 
     return (
-        <div className={`fixed z-10 left-0 top-0 w-screen h-screen overflow-auto backdrop-blur-md ${display}`}>
-            <div className=" flex justify-center flex-col bg-slate-800 mt-20 mx-auto p-2 w-1/3 rounded-md">
-                <span className="hover:cursor-pointer" onClick={handleModal}><FontAwesomeIcon icon={faXmark} className="text-2xl text-white bg-red-600 p-1 rounded-md"></FontAwesomeIcon></span>
-                <h1 className={`my-5 text-center text-3xl font-bold text-white`}>{duelRequest.player} wants to fight you!</h1>
-                <div className="flex justify-center my-5">
-                <button onClick={duelAccept} className="mx-5 rounded-lg bg-green-600 p-1 text-white font-bold">Accept</button>
-                <button onClick={handleModal} className="mx-5 rounded-lg bg-red-600 p-1 text-white font-bold">Reject</button>
+        <div className={`absolute z-3 bottom-10 right-10 ${display} rounded-md"`}>
+            <div className=" flex justify-center flex-col bg-slate-800 mx-auto">
+                <div style={{ width: `${width}%` }} className="bg-green-600 w-full h-3 transition-all"></div>
+                <div className="p-2">
+                    <span className="hover:cursor-pointer" onClick={handleModal}><FontAwesomeIcon icon={faXmark} className="text-white bg-red-600 p-1 rounded-md"></FontAwesomeIcon></span>
+                    <h1 className={`my-5 text-center text-xl font-bold text-white`}>{duelRequest.player} wants to fight you!</h1>
+                    <div className="flex justify-center my-2">
+                        <button onClick={duelAccept} className="mx-5 rounded-lg bg-green-600 p-1 text-sm text-white font-bold">Accept</button>
+                        <button onClick={handleModal} className="mx-5 rounded-lg bg-red-600 p-1 text-sm text-white font-bold">Reject</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
