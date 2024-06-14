@@ -6,11 +6,13 @@ import { AuthProvider } from './context/Authprovider';
 
 // Function to add AdSense script to the head
 function addAdSenseScript() {
-  const script = document.createElement('script');
+ /* const script = document.createElement('script');
   script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7459200310134436";
   script.async = true;
-  script.crossOrigin = "anonymous";
-  document.head.appendChild(script);
+  script.crossOrigin = "anonymous";*/
+  //const title = document.createElement('title')
+  document.title = "Your Production Title";
+  //document.head.appendChild(title);
 }
 
 // Conditionally load AdSense script in production environment
