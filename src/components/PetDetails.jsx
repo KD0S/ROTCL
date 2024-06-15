@@ -1,8 +1,8 @@
-import { faPlus, faXmark } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import axios from "../api/axios"
-import { useEffect, useState } from "react"
-import { config } from "../config"
+import { faPlus, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "../api/axios";
+import { useEffect, useState } from "react";
+import Alert from "../components/Alert";
 
 const h1Color = {
     'Common': 'text-white',
@@ -19,13 +19,15 @@ const slots = {
     'Legendary': 4
 }
 
-const PetDetails = ({ setRefresh, display, handleModal, petDetails, abilityDetails }) => {
+const PetDetails = ({ setRefresh, display, handleModal, petDetails, abilityDetails, partyLen }) => {
 
     const [disableButton, setDisableButton] = useState(false);
+    const [error, setError] = useState(false);
+    const [checked, setChecked] = useState(petDetails.in_party);
 
     const handleAddAbility = async () => {
         setDisableButton(true);
-        const response = await axios.post(`${config.SERVER_URL}/ability/pet/assignAbility/${petDetails.monster_index.rarity}/${petDetails.mid}`, { 'curr_abilities': abilities, slots: slots[petDetails.monster_index.rarity] });
+        const response = await axios.post(`/ability/pet/assignAbility/${petDetails.monster_index.rarity}/${petDetails.mid}`, { 'curr_abilities': abilities, slots: slots[petDetails.monster_index.rarity] });
         let abilites_temp = abilities;
         abilites_temp.every((ability, idx) => {
             if (!ability) {
@@ -39,6 +41,26 @@ const PetDetails = ({ setRefresh, display, handleModal, petDetails, abilityDetai
         setDisableButton(false);
     }
 
+    const handleParty = (e) => {
+        if (e.target.checked && partyLen === 3) {
+            setError(true);
+            setTimeout(() => {
+                setError(false);
+            }, 3000);
+            return;
+        }
+        setChecked(prev => !prev);
+        petDetails.in_party = !petDetails.in_party;
+        const { monster_index: _, ...body } = petDetails;
+        console.log(body);
+        try {
+            axios.put(`/pets/${petDetails.mid}`, body);
+        }
+        catch (error) {
+            console.log(error.message);
+        }
+    }
+
     const [abilities, setAbilities] = useState([]);
 
     useEffect(() => {
@@ -50,6 +72,7 @@ const PetDetails = ({ setRefresh, display, handleModal, petDetails, abilityDetai
 
     return (
         <div className={`fixed z-1 left-0 top-0 w-screen h-screen overflow-auto backdrop-blur-md ${display}`}>
+            {error ? <Alert message={'Party Full (3 Pets)'} type={'error'} /> : null}
             <div className="bg-slate-800 mt-20 mx-auto p-2 w-1/3 rounded-md">
                 <span className="hover:cursor-pointer" onClick={handleModal}><FontAwesomeIcon icon={faXmark} className="text-2xl text-white bg-red-600 p-1 rounded-md"></FontAwesomeIcon></span>
                 <h1 className={`text-center text-3xl font-bold ${h1Color[petDetails?.monster_index.rarity]}`}>{petDetails?.alt_name}</h1>
@@ -67,6 +90,10 @@ const PetDetails = ({ setRefresh, display, handleModal, petDetails, abilityDetai
                         <p className="text-md text-white">{`Stamina: ${petDetails?.monster_index.base_stamina}`}</p>
                     </div>
                 </div>
+                <span className="hover:cursor-pointer flex gap-2 text-white p-1 mx-4">
+                    <label htmlFor="">Add to Party?</label>
+                    <input type="checkbox" checked={checked} onChange={handleParty} />
+                </span>
                 <h2 className="text-xl font-bold text-center text-white">Abilities</h2>
                 <div className="flex justify-center gap-5 m-4">
                     {abilities.map(ability => {
