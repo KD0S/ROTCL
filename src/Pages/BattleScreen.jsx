@@ -4,8 +4,11 @@ import { AttackScreen } from '../components/AttackScreen';
 import { useEffect, useState } from 'react';
 import { BackBtn } from '../components/BackBtn';
 import { DndContext } from '@dnd-kit/core';
+import Spinner from '../components/Spinner'
 
 const BattleScreen = (props) => {
+
+  const [wait, setWait] = useState(true);
   const [disableAbility, setDisableAbility] = useState(false);
   const [turn, setTurn] = useState(null)
   const [endgame, setEndGame] = useState(false)
@@ -23,6 +26,8 @@ const BattleScreen = (props) => {
     setTurn(monsters[2])
     setClientId(monsters[0][0].owner)
     setDisableAbility(false);
+    setWait(false)
+    console.log("tadadad")
 
     // console.log("Triggered setState")
     // console.log(monsters[0].concat(monsters[1]))
@@ -53,7 +58,10 @@ const BattleScreen = (props) => {
     }
   }
 
-  if (!all_monsters) return <div></div>
+  if (!all_monsters) return (<div className='h-screen	w-full flex flex-col justify-center items-center'>
+    <h1 className='text-white my-3 text-2xl font-bold'>Loading</h1>
+    <Spinner h={10} w={10} b={8} color={'fill-yellow-400'} />
+</div>)
 
   else return (
     <DndContext onDragEnd={handleDragEnd}>
