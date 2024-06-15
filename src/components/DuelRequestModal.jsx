@@ -1,20 +1,24 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const DuelRequestModal = ({ duelRequest, display, handleModal, duelAccept }) => {
     const [width, setWidth] = useState(100);
 
-    const intervalID = setInterval(() => {
-        if (display === 'hidden') return;
-        setWidth(prev => prev - 10);
-    }, 1000)
+    useEffect(()=>{
 
-    setTimeout(() => {
-        handleModal();
-        clearInterval(intervalID);
-    }, 5000)
+        const intervalID = setInterval(() => {
+            setWidth(prev => prev - 1.5);
+        }, 50)
+    
+        const timeout = setTimeout(() => {
+            handleModal();
+            clearInterval(intervalID);
+        }, 5000)
 
+        return () => clearTimeout(timeout);
+    
+    },[])
 
     return (
         <div className={`absolute z-3 bottom-10 right-10 ${display} rounded-md"`}>

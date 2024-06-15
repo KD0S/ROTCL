@@ -33,7 +33,8 @@ const Home = ({ page }) => {
     socket.on("duelRequest", (duelRequest) => {
 
         setDuelR(duelRequest)
-        handleModal()
+        if(duelRequestModal === 'hidden')
+            setDuelRequestModal('block')
         
     })
 
