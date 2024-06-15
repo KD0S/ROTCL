@@ -60,7 +60,7 @@ const MonsterPage = ({ auth }) => {
                     <div>
                         <div className='p-2'>
                             <h1 className='text-2xl font-bold text-slate-300'>Party</h1>
-                            <div className='flex gap-6 p-4'>
+                            <div className='flex flex-wrap gap-6 p-4'>
                                 {petsDetails.filter(pet => pet.in_party).map(pet =>
                                     < img id={pet.mid} src={pet.monster_index.img_path} alt={pet.name} className='m-3 rounded-full flex h-36 w-36 bg-yellow-300 text-center hover:cursor-pointer'
                                         onClick={handleModal}
@@ -70,7 +70,7 @@ const MonsterPage = ({ auth }) => {
                         </div>
                         <div className='p-2'>
                             <h1 className='text-2xl font-bold text-slate-300'>Trained Pets</h1>
-                            <div className='flex gap-6 p-4'>
+                            <div className='flex flex-wrap gap-6 p-4'>
                                 {petsDetails.filter(pet => pet.is_trained && !pet.in_party).map(pet =>
                                     < img id={pet.mid} src={pet.monster_index.img_path} alt={pet.name} className='m-3 rounded-full flex h-36 w-36 bg-yellow-300 text-center hover:cursor-pointer'
                                         onClick={handleModal}
@@ -80,7 +80,7 @@ const MonsterPage = ({ auth }) => {
                         </div>
                         <div className='p-2'>
                             <h1 className='text-2xl font-bold text-slate-300'>Untrained Pets</h1>
-                            <div className='flex gap-6 p-4'>
+                            <div className='flex flex-wrap gap-6 p-4'>
                                 {petsDetails.filter(pet => !pet.is_trained).map(pet =>
                                     < img id={pet.mid} src={pet.monster_index.img_path} alt={pet.name} className='m-3 rounded-full flex h-36 w-36 bg-yellow-300 text-center hover:cursor-pointer'
                                         onClick={handleModal}
