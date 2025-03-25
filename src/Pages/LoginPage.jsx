@@ -56,7 +56,7 @@ const LoginPage = () => {
 
     return (
         <main className="bg-slate-900 h-screen w-screen">
-            <a href="/runnerup.zip" download="runnerup.zip" className="text-yellow-600 underline mt-5 block text-center">
+            <a href="/tue1.png" download="tue1.png" className="text-yellow-600 underline mt-5 block text-center">
                     Download Sample Image
                 </a>
             {/* <Header />
