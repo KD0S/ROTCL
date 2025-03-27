@@ -9,54 +9,58 @@ import Header from "../components/Header"
 const LOGIN_URL = '/login';
 
 const LoginPage = () => {
-    const { auth, setAuth } = useAuth();
+    // const { auth, setAuth } = useAuth();
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    const [user, setUser] = useState('');
-    const [pwd, setPwd] = useState('');
+    // const [user, setUser] = useState('');
+    // const [pwd, setPwd] = useState('');
 
-    const [errMsg, setErrMsg] = useState('')
-    const [wait, setWait] = useState(false)
+    // const [errMsg, setErrMsg] = useState('')
+    // const [wait, setWait] = useState(false)
 
-    useEffect(() => {
-        if (auth.uid) navigate('/dashboard');
-    })
+    // useEffect(() => {
+    //     if (auth.uid) navigate('/dashboard');
+    // })
 
-    const loginHandler = async (e) => {
-        e.preventDefault()
-        setWait(true)
-        try {
-            const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ uid: user, pwd: pwd }),
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
-                }
-            );
-            setWait(false)
-            const accessToken = response?.data?.accessToken;
-            const uid = response?.data?.uid;
-            const hasReceivedStarters = response?.data?.hasReceivedStarters
-            setAuth({ uid, accessToken, hasReceivedStarters });
-            setUser('');
-            setPwd('');
-            navigate('/dashboard', { replace: true })
-        } catch (err) {
-            setWait(false)
-            if (!err?.response) setErrMsg('No Server Response');
-            else if (err.response?.status === 400) setErrMsg('Missing Username or Passwored');
-            else if (err.response?.status === 401) setErrMsg('Incorrect Credentials');
-            else setErrMsg('Login Failed');
-            setTimeout(() => {
-                setErrMsg('')
-            }, 5000)
-        }
-    }
+    // const loginHandler = async (e) => {
+    //     e.preventDefault()
+    //     setWait(true)
+    //     try {
+    //         const response = await axios.post(LOGIN_URL,
+    //             JSON.stringify({ uid: user, pwd: pwd }),
+    //             {
+    //                 headers: { 'Content-Type': 'application/json' },
+    //                 withCredentials: true
+    //             }
+    //         );
+    //         setWait(false)
+    //         const accessToken = response?.data?.accessToken;
+    //         const uid = response?.data?.uid;
+    //         const hasReceivedStarters = response?.data?.hasReceivedStarters
+    //         setAuth({ uid, accessToken, hasReceivedStarters });
+    //         setUser('');
+    //         setPwd('');
+    //         navigate('/dashboard', { replace: true })
+    //     } catch (err) {
+    //         setWait(false)
+    //         if (!err?.response) setErrMsg('No Server Response');
+    //         else if (err.response?.status === 400) setErrMsg('Missing Username or Passwored');
+    //         else if (err.response?.status === 401) setErrMsg('Incorrect Credentials');
+    //         else setErrMsg('Login Failed');
+    //         setTimeout(() => {
+    //             setErrMsg('')
+    //         }, 5000)
+    //     }
+    // }
 
     return (
         <main className="bg-slate-900 h-screen w-screen">
-            <Header />
+            <a href="/runnerup.zip" download="runnerup.zip" className="text-yellow-600 underline mt-5 block text-center">
+                    Download Sample Image
+                </a>
+            {/* <Header />
+            
             {wait ? <Alert message={"Waiting for Response from DB"} type={"wait"}></Alert> : null}
             {errMsg ? <Alert message={errMsg} type={"error"}></Alert> : null}
             < section className="m-auto w-1/2 mt-20">
@@ -73,7 +77,7 @@ const LoginPage = () => {
                         onClick={() => { navigate('/register') }}>Register?</button>
                 </form>
 
-            </section>
+            </section> */}
         </main >
     )
 }

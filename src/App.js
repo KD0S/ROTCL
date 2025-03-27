@@ -8,7 +8,6 @@ import Home from './Pages/Home'
 const App = () => {
   return (
     <Routes>
-
       {/* public routes */}
       <Route element={<PersistLogin />}>
         <Route path="/" element={<LoginPage />} />
